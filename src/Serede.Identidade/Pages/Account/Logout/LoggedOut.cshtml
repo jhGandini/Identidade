@@ -1,0 +1,55 @@
+@page
+@model Serede.Identidade.Pages.Logout.LoggedOut
+
+<div class="logged-out-page">
+    <h1>
+        Logout
+        <small>You are now logged out</small>
+    </h1>
+
+    @if (Model.View.PostLogoutRedirectUri != null)
+    {
+        <div>
+            Click <a class="PostLogoutRedirectUri" href="@Model.View.PostLogoutRedirectUri">here</a> to return to the
+            <span>@Model.View.ClientName</span> application.
+        </div>
+    }
+
+    @if (Model.View.SignOutIframeUrl != null)
+    {
+        <iframe width="0" height="0" class="signout" src="@Model.View.SignOutIframeUrl"></iframe>
+    }
+
+    @*@{
+        if (!Model._LoggedOut)
+        {
+            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-logoutId="@Request.Query["logoutId"]" method="post">
+                <button type="submit" class="nav-link btn btn-link text-dark">Click aqui para deslogar</button>
+            </form>
+        }
+        else
+        {
+            <p>Você vou deslogado com sucesso das aplicações.</p>
+
+            @if (Model.PostLogoutRedirectUri != null)
+            {
+                <div>
+                    Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> para retornar a aplicação.
+                </div>
+            }
+
+            @if (Model.SignOutIframeUrl != null)
+            {
+                <iframe width="0" height="0" style="display:none" class="signout" src="@Model.SignOutIframeUrl"></iframe>
+            }
+        }
+    }*@
+</div>
+
+@section scripts
+{
+    @if (Model.View != null && Model.View.AutomaticRedirectAfterSignOut)
+    {
+        <script src="~/js/signout-redirect.js"></script>
+    }
+}

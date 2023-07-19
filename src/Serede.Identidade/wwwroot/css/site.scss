@@ -1,0 +1,158 @@
+
+.back-identidade {
+    background-image: url("~/imagens/Redes.jpg");
+}
+
+
+body {
+    background-color: #F4F4F4;
+    color: #3d3d3d !important;
+}
+
+label {
+    color: rgb(119, 119, 119);
+    display: inline-block !important;
+    max-width: 100% !important;
+    margin-bottom: 0.1rem;
+}
+
+.card-header {
+    font-weight: bold;
+}
+
+.label-serede {
+    color: rgb(158, 157, 157);
+    //font-weight: bold;
+    text-decoration: none;
+}
+
+.label-serede a {
+    color: rgb(158, 157, 157);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.label-serede .ng-fa-icon:not(.btn .ng-fa-icon) {
+    color: rgba(255,115,0,1);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.btn-inline {
+    margin-top: 28px;
+    margin-bottom: 16px;
+}
+
+.grid-form-check-input {
+    margin-top: auto;
+    margin-left: auto;
+}
+
+.thead-header {
+    background-color: rgba(0, 0, 0, 0.03);
+}
+
+.btn-serede {
+    color: rgba(255,115,0,1);
+    background-color: rgb(231, 229, 229);
+    border-bottom: 1px solid rgb(206, 212, 218);
+    border-top: 1px solid rgb(206, 212, 218);
+    border-right: 1px solid rgb(206, 212, 218);
+}
+
+.btn-serede:hover {
+    color: rgb(134, 80, 36);
+}
+
+.form-group {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.backgroud-degrade-serede-conecta {
+    background: rgb(115,8,85);
+    background: linear-gradient(90deg, rgba(115,8,85,1) 0%, rgba(255,162,0,1) 100%, rgba(255,115,0,1) 100%);
+}
+
+
+
+tr {
+    line-height: 2rem;
+}
+
+th, td {
+    color: #777777;
+    vertical-align: middle !important;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.form-group > button {
+    margin-bottom: -1rem !important;
+}
+
+label.required:after {
+    color: #d00;
+    content: "*";
+    // position: absolute;
+    margin-left: 5px;
+    // top:7px;
+}
+
+label.required-check:after {
+    color: #d00;
+    content: "*";
+    // position: absolute;
+    margin-right: 5px;
+    top: 7px;
+}
+
+
+table > thead > tr {
+    height: 52px !important;
+    //line-height: 52px !important;
+}
+
+.link-filtros {
+    color: rgb(158, 157, 157);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-filtros:hover {
+    color: rgb(158, 157, 157);
+    font-weight: bold;
+    text-decoration: none;
+    box-shadow: none !important;
+}
+
+.link-filtros .ng-fa-icon {
+    color: rgba(255,115,0,1);
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.link-filtros:active {
+    outline: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.link-filtros.change:hover {
+    outline: none !important;
+    ;
+    border: none !important;
+    ;
+    box-shadow: none !important;
+}
+
+.link-filtros:focus {
+    outline: 0 !important;
+    box-shadow: none !important;
+}
+
+.input-error input, .input-error textarea, .input-error select {
+    border-color: #d00;
+}
