@@ -10,6 +10,8 @@ using Serede.Identidade.Data;
 using Serede.Identidade.Models;
 using Serede.Identidade.Services;
 using Serede.Identidade.Data.Repositories;
+using System.Security.Cryptography.X509Certificates;
+using IdentityModel;
 
 namespace Serede.Identidade.Extensions;
 
@@ -39,7 +41,7 @@ internal static class HostingExtensions
 
                 // see https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
                 options.EmitStaticAudienceClaim = true;
-            })
+            })            
             .AddAspNetIdentity<SeredeUser>()
             .AddConfigurationStore(options =>
             {
@@ -55,7 +57,12 @@ internal static class HostingExtensions
                 //options.RemoveConsumedTokens = true;
             })
             .AddProfileService<SeredeProfileService>()
-            .AddDeveloperSigningCredential();
+            .AddSigningCredential(LoadCertificate(builder))
+            .AddValidationKey(LoadCertificate(builder));
+
+
+
+        //.AddDeveloperSigningCredential();
 
 
         builder.Services.AddScoped<EmailService>();
@@ -85,12 +92,16 @@ internal static class HostingExtensions
         builder.Services.AddTransient<IdentityScopeRepository>();
         builder.Services.AddTransient<ApiScopeRepository>();
 
+        //builder.Services.AddTransient<WebApplicationBuilder>();
+
         builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
         builder.Services.AddRazorPages();
 
         //builder.Services.Configure<PasswordHasherOptions>(options => options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2);
+
+        //builder.Services.AddAntiforgery();
 
         return builder.Build();
     }
@@ -122,5 +133,11 @@ internal static class HostingExtensions
         app.MapControllers();
 
         return app;
+    }
+
+    public static X509Certificate2 LoadCertificate(this WebApplicationBuilder builder)
+    {
+        var key = new X509Certificate2(builder.Configuration.GetSection("Certificate:FileName").Value, builder.Configuration.GetSection("Certificate:Password").Value, X509KeyStorageFlags.MachineKeySet);
+        return key;
     }
 }

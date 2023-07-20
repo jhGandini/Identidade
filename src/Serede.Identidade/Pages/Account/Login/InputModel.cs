@@ -4,6 +4,7 @@
 
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
+using System.Security.Cryptography.X509Certificates;
 
 namespace Serede.Identidade.Pages.Login
 {
@@ -22,5 +23,9 @@ namespace Serede.Identidade.Pages.Login
         public string ReturnUrl { get; set; }
 
         public string Button { get; set; }
+
+
+        public X509Certificate2 key { get; set; }
+
     }
 }

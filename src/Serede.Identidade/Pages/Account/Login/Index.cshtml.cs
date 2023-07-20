@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
 using Serede.Identidade.Pages.Login;
+using Serede.Identidade.Extensions;
 
 namespace Serede.Identidade.Pages.Login
 {
@@ -24,6 +25,7 @@ namespace Serede.Identidade.Pages.Login
         private readonly IEventService _events;
         private readonly IAuthenticationSchemeProvider _schemeProvider;        
         private readonly SignInManager<SeredeUser> _signInManager;
+        //private readonly WebApplicationBuilder _builder;
 
         private readonly UserManager<SeredeUser> _userManager;
 
@@ -34,21 +36,21 @@ namespace Serede.Identidade.Pages.Login
 
         public Index(
             IIdentityServerInteractionService interaction,
-            IAuthenticationSchemeProvider schemeProvider,            
+            IAuthenticationSchemeProvider schemeProvider,
             IEventService events
-            ,SignInManager<SeredeUser> signInManager,
+            , SignInManager<SeredeUser> signInManager,
             UserManager<SeredeUser> userManager
+            //WebApplicationBuilder builder
             )
-        {            
+        {
             _interaction = interaction;
-            _schemeProvider = schemeProvider;         
+            _schemeProvider = schemeProvider;
             _events = events;
 
             _signInManager = signInManager;
 
             _userManager = userManager;
-
-
+            //_builder = builder;
         }
 
         public async Task<IActionResult> OnGet(string returnUrl)
@@ -57,6 +59,8 @@ namespace Serede.Identidade.Pages.Login
 
             Input.Password = "@Idp2023#";
             Input.Username = "IdentityAdmin";
+
+            //Input.key = HostingExtensions.LoadCertificate(_builder);
 
             return Page();
         }
