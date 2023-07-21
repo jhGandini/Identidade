@@ -1,3 +1,4 @@
+using Microsoft.IdentityModel.Logging;
 using Serede.Identidade.Extensions;
 using Serilog;
 using Serilog.Exceptions;
@@ -27,6 +28,8 @@ try
     var app = builder
         .ConfigureServices()
         .ConfigurePipeline();
+
+    IdentityModelEventSource.ShowPII = true;
 
     app.Run();
 }
