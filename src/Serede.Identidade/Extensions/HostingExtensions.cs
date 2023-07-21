@@ -40,7 +40,7 @@ internal static class HostingExtensions
                 options.Events.RaiseSuccessEvents = true;
 
                 // see https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
-                options.EmitStaticAudienceClaim = true;
+                //options.EmitStaticAudienceClaim = true;
             })            
             .AddAspNetIdentity<SeredeUser>()
             .AddConfigurationStore(options =>
