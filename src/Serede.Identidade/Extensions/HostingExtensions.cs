@@ -12,6 +12,7 @@ using Serede.Identidade.Services;
 using Serede.Identidade.Data.Repositories;
 using System.Security.Cryptography.X509Certificates;
 using IdentityModel;
+using Microsoft.AspNetCore.DataProtection;
 
 namespace Serede.Identidade.Extensions;
 
@@ -20,6 +21,17 @@ internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
+
+        builder.Services
+        .AddDataProtection()        
+        .PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp\dataprotection-persistkeys"))
+        .AddKeyManagementOptions(options =>
+        {
+            options.NewKeyLifetime = new TimeSpan(365, 0, 0, 0);
+            options.AutoGenerateKeys = true;
+        });
+        //.SetApplicationName("MyApp")
+
         var connectionString = builder.Configuration.GetConnectionString("sqlConnection");
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
@@ -38,9 +50,6 @@ internal static class HostingExtensions
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
                 options.Events.RaiseSuccessEvents = true;
-
-                // see https://docs.duendesoftware.com/identityserver/v5/fundamentals/resources/
-                //options.EmitStaticAudienceClaim = true;
             })            
             .AddAspNetIdentity<SeredeUser>()
             .AddConfigurationStore(options =>
