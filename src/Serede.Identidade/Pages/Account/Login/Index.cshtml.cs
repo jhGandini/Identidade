@@ -58,9 +58,7 @@ namespace Serede.Identidade.Pages.Login
             await BuildModelAsync(returnUrl);
 
             Input.Password = "@Idp2023#";
-            Input.Username = "IdentityAdmin";
-
-            //Input.key = HostingExtensions.LoadCertificate(_builder);
+            Input.Username = "IdentityAdmin";            
 
             return Page();
         }

@@ -13,15 +13,14 @@ using Serede.Identidade.Data.Repositories;
 using System.Security.Cryptography.X509Certificates;
 using IdentityModel;
 using Microsoft.AspNetCore.DataProtection;
+using Microsoft.AspNetCore.Authentication.Cookies;
 
 namespace Serede.Identidade.Extensions;
-
 
 internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
     {
-
         builder.Services
         .AddDataProtection()        
         .PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp\dataprotection-persistkeys"))
@@ -29,16 +28,14 @@ internal static class HostingExtensions
         {
             options.NewKeyLifetime = new TimeSpan(365, 0, 0, 0);
             options.AutoGenerateKeys = true;
-        });
-        //.SetApplicationName("MyApp")
+        });        
 
         var connectionString = builder.Configuration.GetConnectionString("sqlConnection");
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connectionString, dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName))
             );
-        builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-        //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+        builder.Services.AddDatabaseDeveloperPageExceptionFilter();        
         builder.Services.AddIdentity<SeredeUser, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
@@ -49,7 +46,7 @@ internal static class HostingExtensions
                 options.Events.RaiseErrorEvents = true;
                 options.Events.RaiseInformationEvents = true;
                 options.Events.RaiseFailureEvents = true;
-                options.Events.RaiseSuccessEvents = true;
+                options.Events.RaiseSuccessEvents = true;                
             })            
             .AddAspNetIdentity<SeredeUser>()
             .AddConfigurationStore(options =>
@@ -65,13 +62,15 @@ internal static class HostingExtensions
                 options.EnableTokenCleanup = true;
                 //options.RemoveConsumedTokens = true;
             })
-            .AddProfileService<SeredeProfileService>()
+            .AddProfileService<SeredeProfileService>()           
             .AddSigningCredential(LoadCertificate(builder))
             .AddValidationKey(LoadCertificate(builder));
+        
 
-
-
-        //.AddDeveloperSigningCredential();
+        builder.Services.Configure<CookiePolicyOptions>(options =>
+        {            
+            options.MinimumSameSitePolicy = SameSiteMode.Lax;
+        });
 
 
         builder.Services.AddScoped<EmailService>();
@@ -88,35 +87,23 @@ internal static class HostingExtensions
                 .WithExposedHeaders("*");
         }));
 
-        //builder.Services.AddAuthorization(options =>
-        //    options.AddPolicy("admin",
-        //        policy => policy.RequireClaim("medicina.atestados.Acesso", "Sim"))
-        ////policy => policy.RequireClaim("sub", "4b9530d5-20ec-497f-8d49-6c7d07ca83a0"))
-        //);
-
-        //builder.Services.Configure<RazorPagesOptions>(options =>
-        //    options.Conventions.AuthorizeFolder("/Admin", "admin"));
-
+        
         builder.Services.AddTransient<ClientRepository>();
         builder.Services.AddTransient<IdentityScopeRepository>();
-        builder.Services.AddTransient<ApiScopeRepository>();
-
-        //builder.Services.AddTransient<WebApplicationBuilder>();
+        builder.Services.AddTransient<ApiScopeRepository>();        
 
         builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
-        builder.Services.AddRazorPages();
-
-        //builder.Services.Configure<PasswordHasherOptions>(options => options.CompatibilityMode = PasswordHasherCompatibilityMode.IdentityV2);
-
-        //builder.Services.AddAntiforgery();
+        builder.Services.AddRazorPages();        
 
         return builder.Build();
     }
 
     public static WebApplication ConfigurePipeline(this WebApplication app)
-    {
+    {       
+        app.UseCookiePolicy();
+
         app.UseSerilogRequestLogging();
 
         if (app.Environment.IsDevelopment())
@@ -126,13 +113,11 @@ internal static class HostingExtensions
         }
 
         app.UseStaticFiles();
-
         app.UseCors("CorsPolicy");
         app.UseRouting();
-
-        app.UseIdentityServer();
+        app.UseIdentityServer();        
         app.UseAuthorization();
-
+        app.UseAuthentication();
         app.MapRazorPages();
 
         app.UseEndpoints(endpoints =>
