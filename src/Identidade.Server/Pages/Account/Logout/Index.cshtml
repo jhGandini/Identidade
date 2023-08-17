@@ -1,0 +1,17 @@
+@page
+@model Identidade.Server.Pages.Account.Logout.Index
+
+<div class="logout-page">
+    <div class="lead">
+        <h1>Logout</h1>
+        <p>Você deseja se deslogar da aplicação?</p>
+    </div>
+
+    <form asp-page="/Account/Logout/Index">
+        <input type="hidden" name="logoutId" value="@Model.LogoutId"  />
+        
+        <div class="form-group">
+            <button class="btn btn-primary">Sim</button>
+        </div>
+    </form>
+</div>
