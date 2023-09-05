@@ -2,38 +2,41 @@
 @model Identidade.Server.Pages.Account.Login.Index
 
 <partial name="_ValidationSummary" />
-<div class="card w-25">    
-    <div class="card-body text-center">
-        <div class="d-flex flex-column justify-content-center">
-            <form asp-page="/Account/Login/Index">
-                <input type="hidden" asp-for="Input.ReturnUrl" />
-
-                <div class="form-group">
-                    <label asp-for="Input.Username" class="label-serede"></label>
-                    <input class="form-control form-control-sm" placeholder="Username" asp-for="Input.Username" autofocus>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Input.Password" class="label-serede"></label>
-                    <input  class="form-control form-control-sm" placeholder="Password" asp-for="Input.Password">
-                </div>
-
-                @if (Model.View.AllowRememberLogin)
-                {
-                    <div class="form-group">
-                        <div class="form-check">
-                            <input class="form-check-input" asp-for="Input.RememberLogin">
-                            <label class="form-check-label label-serede" asp-for="Input.RememberLogin">
-                                Lembrar Login
-                            </label>
-                        </div>
-                    </div>
-                }
-                <div class="d-flex flex-column">
-                    <button class="btn btn-sm btn-serede" name="Input.Button" value="login">Entrar</button>
-                    <label class="label"><a href="~/Account/ForgotPassword">Resetar Senha</a></label>
-                    <label class="label">Não sei meu ID</label>
-                </div>
-            </form>
+<div style="width: 300px!important;">
+    <form asp-page="/Account/Login/Index">
+        <div class="row mb-3">
+            <img src="~/imagens/Dark-Smile.png" />
         </div>
-    </div>
-</div>      
+        <input type="hidden" asp-for="Input.ReturnUrl" />
+        <div class="row mb-3">
+            <div class="col">
+                <input class="form-control form-control" placeholder="Username" asp-for="Input.Username" autofocus>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col">
+                <input class="form-control" placeholder="Password" asp-for="Input.Password">
+            </div>
+        </div>
+        @if (Model.View.AllowRememberLogin)
+        {
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" asp-for="Input.RememberLogin">
+                    <label class="form-check-label label-serede" asp-for="Input.RememberLogin">
+                        Lembrar Login
+                    </label>
+                </div>
+            </div>
+        }
+        <div class="mb-3">
+            <button class="btn btn-primary w-100" name="Input.Button" value="login">Entrar</button>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-outline-info w-100" name="Input.Button" value="ForgotPassword">Resetar Senha</button>
+        </div>
+        <div class="mb-3">
+            <button class="btn btn-outline-info w-100" name="Input.Button" value="ForgotLogin">Não sei meu ID</button>
+        </div>        
+    </form>
+</div>    

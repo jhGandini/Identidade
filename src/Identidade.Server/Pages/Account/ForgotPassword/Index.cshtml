@@ -1,27 +1,21 @@
 ﻿@page
 @model Identidade.Server.Pages.Account.ForgotPassword.ForgotPasswordModel
-<div class="row">
-    <div class="col-sm-6 mx-auto">
-        <div class="lead">
-            <h1 class="label-serede">Esqueceu a senha?</h1>
-        </div>
-        <div class="card">
-            <div class="card-body">
-                <form method="post">
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                    <div class="form-group">
-                        <label asp-for="Input.Email" class="form-label"></label>
-                        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" />
-                        <span asp-validation-for="Input.Email" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <button class="btn btn-serede btn-sm" type="submit" value="Reset">Reset</button>
-                    </div>
-                </form>
+    <div style="max-width: 300px">
+        <div class="row mb-3">
+            <img src="~/imagens/Dark-Smile.png" />
+        </div>        
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="row mb-3">                
+                <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Username" />
+                <div id="emailHelp" class="form-text">Informe seu login e siga os passos informados em seu e-mail</div>
+                <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
-        </div>
+            <div class="row mb-3">
+                <button class="btn btn-primary btn" type="submit" value="Reset">Reset</button>
+            </div>
+        </form>
     </div>
-</div>
-@section Scripts {
+    @section Scripts {
 
-}
+    }

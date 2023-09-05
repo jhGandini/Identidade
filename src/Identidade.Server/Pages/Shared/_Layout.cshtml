@@ -7,17 +7,18 @@
     <title>Identidade</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/css/nav.css" asp-append-version="true" />
+    @*<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/nav.css" asp-append-version="true" />*@
 </head>
 <body class="d-flex flex-column justify-content-center h-100">
 
-    <partial name="~/Pages/Shared/_Nav.cshtml" />    
-    <div class="d-flex flex-column">        
-        <div class="d-flex justify-content-center">
-            @RenderBody()
-        </div>
-    </div>
+    @*@if (User.Identity.IsAuthenticated)
+    {
+        <partial name="~/Pages/Shared/_Nav.cshtml" />
+    }*@    
+    <div class="w-100 h-100 d-flex flex-row justify-content-center align-items-center">
+        @RenderBody()
+    </div>    
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/font-awesome/js/all.js"></script>

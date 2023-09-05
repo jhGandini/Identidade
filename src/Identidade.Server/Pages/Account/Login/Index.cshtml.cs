@@ -65,6 +65,15 @@ namespace Identidade.Server.Pages.Account.Login
          
             if (Input.Button != "login")
             {
+
+                if (Input.Button == "ForgotPassword")
+                {
+                    return Redirect("~/Account/ForgotPassword");                    
+                }
+                if (Input.Button == "ForgotLogin")
+                {
+                    return Redirect("~/Account/ForgotLogin");
+                }
                 if (context != null)
                 {                    
                     await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
