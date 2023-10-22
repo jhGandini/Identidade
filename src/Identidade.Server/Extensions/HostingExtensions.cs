@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.DataProtection;
 using Identidade.Server.Data;
 using Infra.Services.EmailService;
 using Serede.Core.Extensions;
+using IdentityServer4;
 
 namespace Identidade.Server.Extensions;
 
@@ -34,6 +35,16 @@ internal static class HostingExtensions
         builder.Services.ConfgureIdentity();
         builder.ConfgureIdentityServer();
         builder.Services.ConfigureCors();
+
+        builder.Services.AddAuthentication()
+            .AddGoogle("Google", options =>
+            {
+                options.SignInScheme = IdentityServerConstants.ExternalCookieAuthenticationScheme;
+
+                options.ClientId = "434483408261-55tc8n0cs4ff1fe21ea8df2o443v2iuc.apps.googleusercontent.com";//builder.Configuration["Authentication:Google:ClientId"];
+                options.ClientSecret = "3gcoTrEDPPJ0ukn_aYYT6PWo";//builder.Configuration["Authentication:Google:ClientSecret"];
+            });
+
 
         builder.Services.Configure<CookiePolicyOptions>(options =>
         {

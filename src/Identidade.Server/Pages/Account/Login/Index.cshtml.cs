@@ -25,6 +25,7 @@ namespace Identidade.Server.Pages.Account.Login
         private readonly IEventService _events;        
         private readonly SignInManager<SeredeUser> _signInManager;
         private readonly IConfiguration _config;
+        private readonly IAuthenticationSchemeProvider _schemeProvider;        
 
         private readonly UserManager<SeredeUser> _userManager;
 
@@ -35,19 +36,19 @@ namespace Identidade.Server.Pages.Account.Login
 
         public Index(
             IIdentityServerInteractionService interaction,            
-            IEventService events
-            , SignInManager<SeredeUser> signInManager,
+            IEventService events, 
+            SignInManager<SeredeUser> signInManager,
             UserManager<SeredeUser> userManager,
-            IConfiguration config
-            )
+            IConfiguration config,
+            IAuthenticationSchemeProvider schemeProvider
+        )
         {
             _interaction = interaction;            
             _events = events;
-
             _signInManager = signInManager;
-
             _userManager = userManager;
             _config = config;
+            _schemeProvider = schemeProvider;
         }
 
         public async Task<IActionResult> OnGet(string returnUrl)
@@ -55,7 +56,12 @@ namespace Identidade.Server.Pages.Account.Login
             if (VerifyDefaultRedirect(returnUrl))
                 return Redirect(_config.GetSection("ServerConfig:DefaultRedirectUrl").Value);
 
-            BuildModelAsync(returnUrl);
+            await BuildModelAsync(returnUrl);
+
+            if (View.IsExternalLoginOnly)
+            {                
+                return RedirectToPage("/ExternalLogin/Challenge", new { scheme = View.ExternalLoginScheme, returnUrl });
+            }
             return Page();
         }
 
@@ -99,8 +105,6 @@ namespace Identidade.Server.Pages.Account.Login
                 //var checkPass = await _signInManager.PasswordSignInAsync(Input.Username, Input.Password, Input.RememberLogin, lockoutOnFailure: true);
 
                 var checkPass = await _signInManager.CheckPasswordSignInAsync(user, Input.Password, true);
-
-
 
                 if (user != null && checkPass == SignInResult.Success && !user.IsExpired() && !user.Blocked)
                 {
@@ -174,24 +178,77 @@ namespace Identidade.Server.Pages.Account.Login
                 ModelState.AddModelError(string.Empty, message);//LoginOptions.InvalidCredentialsErrorMessage
             }
             
-            BuildModelAsync(Input.ReturnUrl);
+            await BuildModelAsync(Input.ReturnUrl);
             return Page();
         }
 
-        private void BuildModelAsync(string returnUrl)
+        private async Task BuildModelAsync(string returnUrl)
         {            
             Input = new InputModel
             {
                 ReturnUrl = returnUrl,
                 Password = "@Idp2023#",
                 Username = "IdentityAdmin"
-        };
-            var allowLocal = true;                       
+            };
+
+            var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
+            if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
+            {
+                var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
+
+                // this is meant to short circuit the UI and only trigger the one external IdP
+                View = new ViewModel
+                {
+                    EnableLocalLogin = local,
+                };
+
+                Input.Username = context?.LoginHint;
+
+                if (!local)
+                {
+                    View.ExternalProviders = new[] { new ViewModel.ExternalProvider { AuthenticationScheme = context.IdP } };
+                }
+
+                return;
+            }
+
+            var schemes = await _schemeProvider.GetAllSchemesAsync();
+
+            var providers = schemes
+                .Where(x => x.DisplayName != null)
+                .Select(x => new ViewModel.ExternalProvider
+                {
+                    DisplayName = x.DisplayName ?? x.Name,
+                    AuthenticationScheme = x.Name
+                }).ToList();            
+
+            //var dyanmicSchemes = (await _identityProviderStore.GetAllSchemeNamesAsync())
+            //    .Where(x => x.Enabled)
+            //    .Select(x => new ViewModel.ExternalProvider
+            //    {
+            //        AuthenticationScheme = x.Scheme,
+            //        DisplayName = x.DisplayName
+            //    });
+            //providers.AddRange(dyanmicSchemes);
+
+
+            var allowLocal = true;
+
+            var client = context?.Client;
+            if (client != null)
+            {
+                allowLocal = client.EnableLocalLogin;
+                if (client.IdentityProviderRestrictions != null && client.IdentityProviderRestrictions.Any())
+                {
+                    providers = providers.Where(provider => client.IdentityProviderRestrictions.Contains(provider.AuthenticationScheme)).ToList();
+                }
+            }
 
             View = new ViewModel
             {
                 AllowRememberLogin = LoginOptions.AllowRememberLogin,
-                EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,                
+                EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,
+                ExternalProviders = providers.ToArray()
             };            
         }
 

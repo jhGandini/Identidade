@@ -78,7 +78,8 @@ namespace Identidade.Server.Pages.Account.Logout
             View = new LoggedOutViewModel
             {
                 AutomaticRedirectAfterSignOut = LogoutOptions.AutomaticRedirectAfterSignOut,
-                PostLogoutRedirectUri = string.IsNullOrEmpty(request?.PostLogoutRedirectUri) ? "/" : request?.PostLogoutRedirectUri,
+                //PostLogoutRedirectUri = string.IsNullOrEmpty(request?.PostLogoutRedirectUri) ? "/" : request?.PostLogoutRedirectUri,
+                PostLogoutRedirectUri = request?.PostLogoutRedirectUri,
                 ClientName = string.IsNullOrEmpty(request?.ClientName) ? request?.ClientId : request?.ClientName,
                 SignOutIframeUrl = request?.SignOutIFrameUrl
             };

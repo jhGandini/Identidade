@@ -4,8 +4,8 @@
 <partial name="_ValidationSummary" />
 <div style="width: 300px!important;">
     <form asp-page="/Account/Login/Index">
-        <div class="row mb-3">
-            <img src="~/imagens/Dark-Smile.png" />
+        <div class="row mb-3 d-flex flex-lg-row justify-content-center">
+            <img src="~/imagens/Melting_Smile-removebg-preview.png" class="w-50" />
         </div>
         <input type="hidden" asp-for="Input.ReturnUrl" />
         <div class="row mb-3">
@@ -23,20 +23,42 @@
             <div class="form-group">
                 <div class="form-check">
                     <input class="form-check-input" asp-for="Input.RememberLogin">
-                    <label class="form-check-label label-serede" asp-for="Input.RememberLogin">
+                    <label class="form-check-label" asp-for="Input.RememberLogin">
                         Lembrar Login
                     </label>
                 </div>
             </div>
         }
         <div class="mb-3">
-            <button class="btn btn-primary w-100" name="Input.Button" value="login">Entrar</button>
+            <button class="btn btn-info w-100 btnteste" name="Input.Button" value="login">Entrar</button>
         </div>
-        <div class="mb-3">
-            <button class="btn btn-outline-info w-100" name="Input.Button" value="ForgotPassword">Resetar Senha</button>
+        <div class="mb-3 d-flex flex-row">
+            <button class="link-button link-secondary w-100 btnteste" name="Input.Button" value="ForgotPassword">Resetar Senha</button>
+            <button class="link-button link-secondary w-100 btnteste" name="Input.Button" value="ForgotLogin">Não sei meu ID</button>
         </div>
-        <div class="mb-3">
-            <button class="btn btn-outline-info w-100" name="Input.Button" value="ForgotLogin">Não sei meu ID</button>
-        </div>        
     </form>
-</div>    
+    @if (Model.View.VisibleExternalProviders.Any())
+    {
+        <div class="mb-3">
+            @foreach (var provider in Model.View.VisibleExternalProviders)
+            {                
+                <a class="btn btn-light w-100 btnteste"
+                    asp-page="/ExternalLogin/Challenge"
+                    asp-route-scheme="@provider.AuthenticationScheme"
+                    asp-route-returnUrl="@Model.Input.ReturnUrl">
+                    @provider.DisplayName
+                </a>                
+            }
+        </div>        
+    }
+
+    @if (!Model.View.EnableLocalLogin && !Model.View.VisibleExternalProviders.Any())
+    {
+        <div class="row mb-3">
+            <div class="alert alert-warning">
+                <strong>Invalid login request</strong>
+                There are no login schemes configured for this request.
+            </div>
+        </div>        
+    }
+</div>

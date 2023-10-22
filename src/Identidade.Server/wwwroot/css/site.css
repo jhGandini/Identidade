@@ -28,12 +28,14 @@ main > .container, main > .container-fluid {
 }
 
 body {
-    background-color: #e9ecef;
+    background: rgb(115,8,85);
+    background: linear-gradient(90deg, rgba(115,8,85,1) 0%, rgba(166,96,173,1) 30%, rgba(85,125,142,1) 60%, rgba(146,233,247,1) 90%);
     color: #3d3d3d !important;
 }
 
 label {
-    color: rgb(119, 119, 119);
+    /*color: rgb(119, 119, 119);*/
+    color: #F4F4F4;
     display: inline-block !important;
     max-width: 100% !important;
     margin-bottom: 0.1rem;
@@ -62,18 +64,26 @@ table > thead > tr {
     //line-height: 52px !important;
 }
 
-
-body {
-    background-color: #F4F4F4;
-    color: #3d3d3d !important;
-}
-
-label {
+.btnteste {
     color: rgb(119, 119, 119);
-    display: inline-block !important;
-    max-width: 100% !important;
-    margin-bottom: 0.1rem;
+    font-weight: bold;
 }
+
+.btnteste:hover {
+    color: #3d3d3d;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    color: #F4F4F4;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+    .link-button:hover {
+        color: #3d3d3d;
+    }
 
 .card-header {
     font-weight: bold;

@@ -1,5 +1,6 @@
 ﻿using Identidade.Server.Data;
 using Identidade.Server.Models;
+using IdentityServer4;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -34,6 +35,7 @@ public static class IdentityServerExtension
             })
             .AddProfileService<SeredeProfile>()
             .AddSigningCredential(builder.LoadCertificate())
-            .AddValidationKey(builder.LoadCertificate());        
+            .AddValidationKey(builder.LoadCertificate())
+            .AddRedirectUriValidator<RedirectUriValidator>();
     }
 }
