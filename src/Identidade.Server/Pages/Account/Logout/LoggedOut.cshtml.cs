@@ -49,12 +49,12 @@ namespace Identidade.Server.Pages.Account.Logout
         public async Task<IActionResult> OnGet(string logoutId)
         {
             var request = await _interactionService.GetLogoutContextAsync(logoutId);
-            //if (request?.ShowSignoutPrompt == false || !User.Identity.IsAuthenticated)
-            //{
-            return await OnPost(logoutId);
-            //}
+            if (request?.ShowSignoutPrompt == false || !User.Identity.IsAuthenticated)
+            {
+                return await OnPost(logoutId);
+            }
 
-            //return Page();
+            return Page();
         }
 
         public bool _LoggedOut { get; set; }
@@ -78,8 +78,8 @@ namespace Identidade.Server.Pages.Account.Logout
             View = new LoggedOutViewModel
             {
                 AutomaticRedirectAfterSignOut = LogoutOptions.AutomaticRedirectAfterSignOut,
-                //PostLogoutRedirectUri = string.IsNullOrEmpty(request?.PostLogoutRedirectUri) ? "/" : request?.PostLogoutRedirectUri,
-                PostLogoutRedirectUri = request?.PostLogoutRedirectUri,
+                PostLogoutRedirectUri = string.IsNullOrEmpty(request?.PostLogoutRedirectUri) ? "/" : request?.PostLogoutRedirectUri,
+                //PostLogoutRedirectUri = request?.PostLogoutRedirectUri,
                 ClientName = string.IsNullOrEmpty(request?.ClientName) ? request?.ClientId : request?.ClientName,
                 SignOutIframeUrl = request?.SignOutIFrameUrl
             };
