@@ -2,13 +2,13 @@
 @model Identidade.Server.Pages.Account.Logout.Index
 
 <div style="max-width: 300px">
-    <div class="row mb-3">
+    @*<div class="row mb-3">
         <img src="~/imagens/Dark-Smile.png" />
-    </div>
+    </div>*@
     <form asp-page="/Account/Logout/Index">
         <input type="hidden" name="logoutId" value="@Model.LogoutId" />
         <div class="row mb-3">            
-            <div id="emailHelp" class="form-text">Você deseja se deslogar da aplicação?</div>            
+            <div id="emailHelp" class="form-text text-white">Você deseja se deslogar da aplicação?</div>            
         </div>
         <div class="row mb-3">
             <button class="btn btn-primary btn" type="submit" >Sim</button>

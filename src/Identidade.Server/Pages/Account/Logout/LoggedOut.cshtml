@@ -1,6 +1,11 @@
 @page
 @model Identidade.Server.Pages.Account.Logout.LoggedOut
 
+@{
+    Model.PostLogoutRedirectUri ??= "/";
+}
+
+
 <div class="logged-out-page">
     @*<h1>
         Logout
@@ -29,14 +34,10 @@
         }
         else
         {
-            <p>Você vou deslogado com sucesso das aplicações.</p>
-
-            @if (Model.PostLogoutRedirectUri != null)
-            {
-                <div>
-                    Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">here</a> para retornar a aplicação.
-                </div>
-            }
+            <p>Você foi deslogado com sucesso das aplicações.</p>
+            <div>
+                Click <a class="PostLogoutRedirectUri" href="@Model.PostLogoutRedirectUri">aqui</a> para retornar a aplicação.
+            </div>
 
             @if (Model.SignOutIframeUrl != null)
             {

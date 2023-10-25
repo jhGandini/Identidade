@@ -13,17 +13,9 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    var conf = builder.Configuration.SetBasePath(builder.Environment.ContentRootPath)
-        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
-        .AddJsonFile($"appsettings.{builder.Environment.EnvironmentName}.json", optional: false, reloadOnChange: true)
-        .AddEnvironmentVariables().Build();
+    var conf = builder.ConfigureAppSettings();
 
-    builder.Host.UseSerilog((ctx, lc) => lc
-        .WriteTo.Console(outputTemplate: "[{Timestamp:HH:mm:ss} {Level}] {SourceContext}{NewLine}{Message:lj}{NewLine}{Exception}{NewLine}")
-        .Enrich.FromLogContext()
-        .Enrich.WithExceptionDetails()
-        .Enrich.WithMachineName()
-        .ReadFrom.Configuration(ctx.Configuration));
+    builder.Host.ConfigureSerilog(); 
 
     var app = builder
         .ConfigureServices()

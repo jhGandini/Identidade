@@ -14,10 +14,10 @@
 </head>
 <body class="d-flex flex-column justify-content-center h-100">
 
-    @*@if (User.Identity.IsAuthenticated)
+    @if (User.Identity.IsAuthenticated)
     {
         <partial name="~/Pages/Shared/_Nav.cshtml" />
-    }*@    
+    }    
     <div class="w-100 h-100 d-flex flex-row justify-content-center align-items-center">
         @RenderBody()
     </div>    

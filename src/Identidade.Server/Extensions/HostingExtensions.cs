@@ -5,16 +5,17 @@ using System.Text.Json.Serialization;
 using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.DataProtection;
 using Identidade.Server.Data;
-using Infra.Services.EmailService;
-using Serede.Core.Extensions;
 using IdentityServer4;
+using Identidade.Server.Settings;
+using Identidade.Server.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
 
 namespace Identidade.Server.Extensions;
 
 internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
-    {
+    {       
         builder.Services
         .AddDataProtection()
         .PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp\dataprotection-persistkeys"))
@@ -58,6 +59,8 @@ internal static class HostingExtensions
         builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
+
+        builder.Services.AddControllersWithViews();
         builder.Services.AddRazorPages();
 
         return builder.Build();
@@ -83,11 +86,15 @@ internal static class HostingExtensions
         app.UseAuthentication();
         app.MapRazorPages();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapRazorPages().RequireAuthorization();
-        });
-        app.MapControllers();
+        app.MapDefaultControllerRoute().RequireAuthorization();
+        app.MapRazorPages().RequireAuthorization();
+
+        //app.UseEndpoints(endpoints =>
+        //{
+        //    //endpoints.MapRazorPages().RequireAuthorization();
+        //    endpoints.MapDefaultControllerRoute();
+        //});
+        //app.MapControllers();
 
         return app;
     }

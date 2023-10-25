@@ -17,11 +17,11 @@ public class RedirectUriValidator : IRedirectUriValidator
 
     public Task<bool> IsPostLogoutRedirectUriValidAsync(string requestedUri, Client client)
     {
-        if (!requestedUri.Equals("/"))
-        {
-            var index = requestedUri.IndexOf("/", 8);
-            requestedUri = requestedUri.Substring(0, index + 1);
-        }
+        //if (!requestedUri.Equals("/"))
+        //{
+        //    var index = requestedUri.IndexOf("/", 8);
+        //    requestedUri = requestedUri.Substring(0, index + 1);
+        //}
         
         return Task.FromResult(StringCollectionContainsString(client.PostLogoutRedirectUris, requestedUri));        
     }

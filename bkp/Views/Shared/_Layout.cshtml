@@ -1,0 +1,30 @@
+﻿<!DOCTYPE html>
+<html lang="pt-br" class="h-100">
+<head>
+
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#563d7c">
+    <title>Identidade</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/lib/font-awesome/css/all.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link rel="shortcut icon" type="image/jpg" href="~/imagens/Dark-Smile.png" />
+    @*<link rel="stylesheet" href="~/css/nav.css" asp-append-version="true" />*@
+</head>
+<body class="d-flex flex-column justify-content-center h-100">
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <partial name="_Nav" />
+    }
+    <div class="w-100 h-100 d-flex flex-row justify-content-center align-items-center">
+        @RenderBody()
+    </div>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="~/lib/font-awesome/js/all.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
