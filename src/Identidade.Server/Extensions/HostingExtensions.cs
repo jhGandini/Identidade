@@ -47,10 +47,15 @@ internal static class HostingExtensions
             });
 
 
-        builder.Services.Configure<CookiePolicyOptions>(options =>
-        {
-            options.MinimumSameSitePolicy = SameSiteMode.Lax;
-        });        
+        //builder.Services.Configure<CookiePolicyOptions>(options =>
+        //{
+        //    options.MinimumSameSitePolicy = SameSiteMode.Lax;
+        //});
+
+
+        builder.Services.AddSameSiteCookiePolicy();
+
+
 
         builder.Services.AddSingleton<EmailSettings>(_ => email);
         builder.Services.AddScoped<EmailService>();

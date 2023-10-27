@@ -3,6 +3,7 @@ using Identidade.Server.Models;
 using IdentityServer4;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using IdentityServer4.Hosting;// IdentityServerHost.Extensions;
 
 namespace Identidade.Server.Extensions;
 
@@ -37,5 +38,8 @@ public static class IdentityServerExtension
             .AddSigningCredential(builder.LoadCertificate())
             .AddValidationKey(builder.LoadCertificate())
             .AddRedirectUriValidator<RedirectUriValidator>();
+
+
+            
     }
 }
