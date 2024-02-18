@@ -5,18 +5,18 @@ namespace Identidade.Server.Pages
 {
     [Authorize]
     public class Index : PageModel
-    {        
+    {
         private readonly IConfiguration _config;
 
         public Index(IConfiguration config)
-        {            
+        {
             _config = config;
         }
 
         public void OnGet()
         {
             if (VerifyDefaultRedirect("/"))
-                Redirect(_config.GetSection("ServerConfig:DefaultRedirectUrl").Value);                       
+                Redirect(_config.GetSection("ServerConfig:DefaultRedirectUrl").Value);
         }
 
         private bool VerifyDefaultRedirect(string redirect)

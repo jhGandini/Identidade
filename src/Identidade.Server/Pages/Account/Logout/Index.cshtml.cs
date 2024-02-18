@@ -1,13 +1,13 @@
+using Identidade.Server.Models;
+using IdentityModel;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
-using IdentityModel;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Microsoft.AspNetCore.Identity;
-using Identidade.Server.Models;
 
 namespace Identidade.Server.Pages.Account.Logout
 {
@@ -21,6 +21,8 @@ namespace Identidade.Server.Pages.Account.Logout
 
         [BindProperty]
         public string LogoutId { get; set; }
+        [BindProperty]
+        public string Button { get; set; }
 
         public Index(IIdentityServerInteractionService interaction, IEventService events, SignInManager<SeredeUser> signInManager)
         {
@@ -62,6 +64,10 @@ namespace Identidade.Server.Pages.Account.Logout
 
         public async Task<IActionResult> OnPost()
         {
+            if (Button == "nao")
+            {
+                return Redirect("~/");
+            }
 
             var logout = await _interaction.GetLogoutContextAsync(LogoutId);
 
@@ -117,8 +123,8 @@ namespace Identidade.Server.Pages.Account.Logout
                 // this triggers a redirect to the external provider for sign-out
                 return SignOut(new AuthenticationProperties { RedirectUri = url }, vm.ExternalAuthenticationScheme);
             }
-            
-            
+
+
 
             return RedirectToPage("/Account/Logout/LoggedOut", new { logoutId = LogoutId });
         }

@@ -5,7 +5,7 @@
 <div style="width: 300px!important;">
     <form asp-page="/Account/Login/Index">
         <div class="row mb-3 d-flex flex-lg-row justify-content-center">
-            <img src="~/imagens/Melting_Smile-removebg-preview.png" class="w-50" />
+            
         </div>
         <input type="hidden" asp-for="Input.ReturnUrl" />
         <div class="row mb-3">
@@ -42,7 +42,7 @@
         <div class="mb-3">
             @foreach (var provider in Model.View.VisibleExternalProviders)
             {                
-                <a class="btn btn-light w-100 btnteste"
+                <a class="btn shadow  w-100 btnteste"
                     asp-page="/ExternalLogin/Challenge"
                     asp-route-scheme="@provider.AuthenticationScheme"
                     asp-route-returnUrl="@Model.Input.ReturnUrl">

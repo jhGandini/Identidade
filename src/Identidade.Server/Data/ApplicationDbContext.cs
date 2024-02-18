@@ -1,5 +1,4 @@
 ﻿using Identidade.Server.Models;
-using IdentityServer4.EntityFramework.Entities;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -13,7 +12,7 @@ public class ApplicationDbContext : IdentityDbContext<SeredeUser>
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {        
+    {
         modelBuilder.Entity<SeredeUser>(b =>
         {
             b.Property(x => x.FirstName)
@@ -25,7 +24,7 @@ public class ApplicationDbContext : IdentityDbContext<SeredeUser>
             b.Property(x => x.CPF)
                 .HasColumnType("varchar(20)");
         });
-        
+
 
         base.OnModelCreating(modelBuilder);
     }

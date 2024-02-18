@@ -8,10 +8,12 @@
     <form asp-page="/Account/Logout/Index">
         <input type="hidden" name="logoutId" value="@Model.LogoutId" />
         <div class="row mb-3">            
-            <div id="emailHelp" class="form-text text-white">Você deseja se deslogar da aplicação?</div>            
+            <div id="emailHelp" class="form-text">Você realmente deseja sair da aplicação?</div>            
         </div>
         <div class="row mb-3">
-            <button class="btn btn-primary btn" type="submit" >Sim</button>
+            <button class="link-button link-primary w-100 btnteste" name="Button" value="sim">Sim</button>
+            <button class="link-button link-secondary w-100 btnteste" name="Button" value="nao">Não</button>
+            @*<button class="btn btn-primary btn" type="submit">Sim</button>*@
         </div>
     </form>
 </div>

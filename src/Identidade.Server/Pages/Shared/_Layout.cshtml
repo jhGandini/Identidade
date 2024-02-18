@@ -12,15 +12,21 @@
     <link rel="shortcut icon" type="image/jpg" href="~/imagens/Dark-Smile.png" />
     @*<link rel="stylesheet" href="~/css/nav.css" asp-append-version="true" />*@
 </head>
-<body class="d-flex flex-column justify-content-center h-100">
+<body class="w-100 h-100 d-flex flex-row justify-content-center">
 
     @if (User.Identity.IsAuthenticated)
     {
         <partial name="~/Pages/Shared/_Nav.cshtml" />
-    }    
-    <div class="w-100 h-100 d-flex flex-row justify-content-center align-items-center">
+    }
+    <div class="d-flex flex-column w-100 h-100 align-items-center justify-content-center">
+        <img src="~/imagens/Melting_Smile-removebg-preview.png" class="w-25" />
+    </div>
+    <div class="d-flex flex-column w-100 h-100 align-items-center justify-content-center">
         @RenderBody()
-    </div>    
+    </div>
+    @*<div class="w-100 h-100 d-flex flex-row justify-content-center align-items-center">
+
+        </div>*@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
     <script src="~/lib/font-awesome/js/all.js"></script>

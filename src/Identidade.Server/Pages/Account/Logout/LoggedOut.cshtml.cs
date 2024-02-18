@@ -1,9 +1,9 @@
+using Identidade.Server.Models;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using Identidade.Server.Models;
 
 namespace Identidade.Server.Pages.Account.Logout
 {

@@ -1,7 +1,4 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-
-namespace Identidade.Server.Extensions;
+﻿namespace Identidade.Server.Extensions;
 
 
 public static class AppSettingsExtension

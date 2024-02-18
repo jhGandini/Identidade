@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Encodings.Web;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Identidade.Server.Models;
+using Identidade.Server.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
-using Identidade.Server.Models;
-using Identidade.Server.Services;
+using System.ComponentModel.DataAnnotations;
+using System.Text;
+using System.Text.Encodings.Web;
 
 namespace Identidade.Server.Pages.Account.ForgotPassword
 {
@@ -62,6 +59,21 @@ namespace Identidade.Server.Pages.Account.ForgotPassword
                 {
                     Input.Email
                 };
+
+
+
+                //string path = @"C:\Users\jhgan\Desktop\erros processamento.txt";
+
+                //// Calling the ReadAllBytes() function 
+                //byte[] readText = System.IO.File.ReadAllBytes(path);
+
+                //await _emailSender.EnviarEmail(
+                //    listaEmails,
+                //    "Reset Password",
+                //    $"Redefina sua senha por <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicando aqui</a>.", readText, "teste_edson.txt");
+
+
+
 
                 await _emailSender.EnviarEmail(
                     listaEmails,

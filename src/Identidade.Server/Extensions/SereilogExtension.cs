@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Hosting;
-using Serilog;
+﻿using Serilog;
 using Serilog.Exceptions;
 
 namespace Identidade.Server.Extensions;

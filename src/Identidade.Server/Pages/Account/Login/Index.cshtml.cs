@@ -1,9 +1,8 @@
+using Identidade.Server.Models;
 using IdentityServer4;
 using IdentityServer4.Events;
 using IdentityServer4.Models;
 using IdentityServer4.Services;
-using IdentityServer4.Stores;
-using IdentityServer4.Test;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -11,9 +10,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Security.Claims;
 using SignInResult = Microsoft.AspNetCore.Identity.SignInResult;
-using Identidade.Server.Extensions;
-using Identidade.Server.Models;
-using IdentityServer4.Extensions;
 
 namespace Identidade.Server.Pages.Account.Login
 {
@@ -22,10 +18,10 @@ namespace Identidade.Server.Pages.Account.Login
     public class Index : PageModel
     {
         private readonly IIdentityServerInteractionService _interaction;
-        private readonly IEventService _events;        
+        private readonly IEventService _events;
         private readonly SignInManager<SeredeUser> _signInManager;
         private readonly IConfiguration _config;
-        private readonly IAuthenticationSchemeProvider _schemeProvider;        
+        private readonly IAuthenticationSchemeProvider _schemeProvider;
 
         private readonly UserManager<SeredeUser> _userManager;
 
@@ -35,15 +31,15 @@ namespace Identidade.Server.Pages.Account.Login
         public InputModel Input { get; set; }
 
         public Index(
-            IIdentityServerInteractionService interaction,            
-            IEventService events, 
+            IIdentityServerInteractionService interaction,
+            IEventService events,
             SignInManager<SeredeUser> signInManager,
             UserManager<SeredeUser> userManager,
             IConfiguration config,
             IAuthenticationSchemeProvider schemeProvider
         )
         {
-            _interaction = interaction;            
+            _interaction = interaction;
             _events = events;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -56,43 +52,47 @@ namespace Identidade.Server.Pages.Account.Login
             if (VerifyDefaultRedirect(returnUrl))
                 return Redirect(_config.GetSection("ServerConfig:DefaultRedirectUrl").Value);
 
+            if (User.Identity.IsAuthenticated)
+                return Redirect("~/");
+
+
             await BuildModelAsync(returnUrl);
 
             if (View.IsExternalLoginOnly)
-            {                
+            {
                 return RedirectToPage("/ExternalLogin/Challenge", new { scheme = View.ExternalLoginScheme, returnUrl });
             }
             return Page();
         }
 
         public async Task<IActionResult> OnPost()
-        {            
+        {
             var context = await _interaction.GetAuthorizationContextAsync(Input.ReturnUrl);
-         
+
             if (Input.Button != "login")
             {
 
                 if (Input.Button == "ForgotPassword")
                 {
-                    return Redirect("~/Account/ForgotPassword");                    
+                    return Redirect("~/Account/ForgotPassword");
                 }
                 if (Input.Button == "ForgotLogin")
                 {
                     return Redirect("~/Account/ForgotLogin");
                 }
                 if (context != null)
-                {                    
+                {
                     await _interaction.DenyAuthorizationAsync(context, AuthorizationError.AccessDenied);
-                 
+
                     if (context.IsNativeClient())
-                    {                        
+                    {
                         return this.LoadingPage(Input.ReturnUrl);
                     }
 
                     return Redirect(Input.ReturnUrl);
                 }
                 else
-                {                    
+                {
                     return Redirect("~/");
                 }
             }
@@ -147,9 +147,9 @@ namespace Identidade.Server.Pages.Account.Login
                     {
                         if (VerifyDefaultRedirect(Input.ReturnUrl))
                             return Redirect(_config.GetSection("ServerConfig:DefaultRedirectUrl").Value);
-                        else                        
+                        else
                             return Redirect(Input.ReturnUrl);
-                    }                           
+                    }
                     else
                     {
                         throw new Exception("invalid return URL");
@@ -177,13 +177,13 @@ namespace Identidade.Server.Pages.Account.Login
                 await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, message, clientId: context?.Client.ClientId));
                 ModelState.AddModelError(string.Empty, message);//LoginOptions.InvalidCredentialsErrorMessage
             }
-            
+
             await BuildModelAsync(Input.ReturnUrl);
             return Page();
         }
 
         private async Task BuildModelAsync(string returnUrl)
-        {            
+        {
             Input = new InputModel
             {
                 ReturnUrl = returnUrl,
@@ -220,7 +220,7 @@ namespace Identidade.Server.Pages.Account.Login
                 {
                     DisplayName = x.DisplayName ?? x.Name,
                     AuthenticationScheme = x.Name
-                }).ToList();            
+                }).ToList();
 
             //var dyanmicSchemes = (await _identityProviderStore.GetAllSchemeNamesAsync())
             //    .Where(x => x.Enabled)
@@ -249,7 +249,7 @@ namespace Identidade.Server.Pages.Account.Login
                 AllowRememberLogin = LoginOptions.AllowRememberLogin,
                 EnableLocalLogin = allowLocal && LoginOptions.AllowLocalLogin,
                 ExternalProviders = providers.ToArray()
-            };            
+            };
         }
 
         private bool VerifyDefaultRedirect(string redirect)

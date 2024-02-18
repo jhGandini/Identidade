@@ -1,21 +1,22 @@
-﻿using IdentityServer4.Services;
+﻿using Identidade.Server.Data;
+using Identidade.Server.Services;
+using Identidade.Server.Settings;
+using IdentityServer4;
+using IdentityServer4.Services;
+using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
-using System.Text.Json.Serialization;
 using System.Security.Cryptography.X509Certificates;
-using Microsoft.AspNetCore.DataProtection;
-using Identidade.Server.Data;
-using IdentityServer4;
-using Identidade.Server.Settings;
-using Identidade.Server.Services;
-using Microsoft.AspNetCore.Mvc.Authorization;
+using System.Text.Json.Serialization;
 
 namespace Identidade.Server.Extensions;
 
 internal static class HostingExtensions
 {
     public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
-    {       
+    {
+        builder.Services.AddRazorPages();
+
         builder.Services
         .AddDataProtection()
         .PersistKeysToFileSystem(new DirectoryInfo(@"C:\temp\dataprotection-persistkeys"))
@@ -26,13 +27,13 @@ internal static class HostingExtensions
         });
 
         var email = new EmailSettings();
-        builder.Configuration.Bind("Email", email);        
+        builder.Configuration.Bind("Email", email);
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"), dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName))
             );
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
-        
+
         builder.Services.ConfgureIdentity();
         builder.ConfgureIdentityServer();
         builder.Services.ConfigureCors();
@@ -59,14 +60,14 @@ internal static class HostingExtensions
 
         builder.Services.AddSingleton<EmailSettings>(_ => email);
         builder.Services.AddScoped<EmailService>();
-        builder.Services.AddScoped<IProfileService, SeredeProfile>();        
+        builder.Services.AddScoped<IProfileService, SeredeProfile>();
 
         builder.Services.AddControllers().AddJsonOptions(x =>
                 x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
 
 
-        builder.Services.AddControllersWithViews();
-        builder.Services.AddRazorPages();
+        //builder.Services.AddControllersWithViews();
+        
 
         return builder.Build();
     }
@@ -89,16 +90,15 @@ internal static class HostingExtensions
         app.UseIdentityServer();
         app.UseAuthorization();
         app.UseAuthentication();
-        app.MapRazorPages();
 
-        app.MapDefaultControllerRoute().RequireAuthorization();
-        app.MapRazorPages().RequireAuthorization();
+        //app.MapDefaultControllerRoute().RequireAuthorization();
+        //app.MapRazorPages().RequireAuthorization();
 
-        //app.UseEndpoints(endpoints =>
-        //{
-        //    //endpoints.MapRazorPages().RequireAuthorization();
-        //    endpoints.MapDefaultControllerRoute();
-        //});
+        app.UseEndpoints(endpoints =>
+        {
+            endpoints.MapRazorPages();
+            //endpoints.MapDefaultControllerRoute();
+        });
         //app.MapControllers();
 
         return app;

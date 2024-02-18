@@ -1,19 +1,90 @@
 
 .back-identidade {
-    background-image: url("~/imagens/Redes.jpg");
+    background-image: url("../imagens/redes.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 }
 
+main > .container, main > .container-fluid {
+    padding: 30px 15px 20px;
+}
+
+.bd-placeholder-img {
+    font-size: 1.125rem;
+    text-anchor: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    user-select: none;
+}
+
+@media (min-width: 768px) {
+    .bd-placeholder-img-lg {
+        font-size: 3.5rem;
+    }
+}
+
+.thead-header {
+    background-color: rgba(0, 0, 0, 0.03);
+}
 
 body {
-    background-color: #070419!important;
+    //background: rgb(241, 235, 235);
+    //background: linear-gradient(90deg, rgba(115,8,85,1) 0%, rgba(166,96,173,1) 30%, rgba(85,125,142,1) 60%, rgba(146,233,247,1) 90%);
+    background: rgb(166,96,173);
+    background: linear-gradient(34deg, rgba(166,96,173,1) 0%, rgba(142,61,119,1) 19%, rgba(85,125,142,1) 35%, rgba(146,233,247,1) 45%, rgba(255,255,255,1) 45%);
     color: #3d3d3d !important;
 }
 
 label {
-    color: rgb(119, 119, 119);
+    /*color: rgb(119, 119, 119);*/
+    //color: #F4F4F4;
     display: inline-block !important;
     max-width: 100% !important;
     margin-bottom: 0.1rem;
+}
+
+tr {
+    line-height: 2rem;
+}
+
+th, td {
+    color: #777777;
+    vertical-align: middle !important;
+}
+
+.form-group {
+    margin-bottom: 0.5rem;
+}
+
+.form-group > button {
+    margin-bottom: -1rem !important;
+}
+
+
+table > thead > tr {
+    height: 52px !important;
+    //line-height: 52px !important;
+}
+
+.btnteste {
+    color: rgb(119, 119, 119);
+    font-weight: bold;
+}
+
+.btnteste:hover {
+    color: #3d3d3d;
+}
+
+.link-button {
+    background: none;
+    border: none;
+    /*color: #F4F4F4;*/
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.link-button:hover {
+    color: #3d3d3d;
 }
 
 .card-header {
@@ -53,16 +124,20 @@ label {
 }
 
 .btn-serede {
-    color: rgba(255,115,0,1);
-    background-color: rgb(231, 229, 229);
-    border-bottom: 1px solid rgb(206, 212, 218);
-    border-top: 1px solid rgb(206, 212, 218);
-    border-right: 1px solid rgb(206, 212, 218);
+    color: #F4F4F4;
+    background-color: #fe7300;
+    border-bottom: 1px solid #fe7300;
+    border-top: 1px solid #fe7300;
+    border-right: 1px solid #fe7300;
 }
 
 .btn-serede:hover {
-    color: rgb(134, 80, 36);
+    color: #3d3d3d;
 }
+
+
+/*$secondary-serede: #740954 !default;
+$primary-serede: #fe7300 !default;*/
 
 .form-group {
     padding-left: 10px;
@@ -71,9 +146,19 @@ label {
 
 .backgroud-degrade-serede-conecta {
     background: rgb(115,8,85);
-    background: linear-gradient(90deg, rgba(115,8,85,1) 0%, rgba(255,162,0,1) 100%, rgba(255,115,0,1) 100%);
+    background: linear-gradient(90deg, rgba(115,8,85,1) 0%, rgba(166,96,173,1) 30%, rgba(85,125,142,1) 60%, rgba(146,233,247,1) 90%);    
 }
 
+
+.degrade-invertido {
+    background: rgb(255,255,255);
+    background: linear-gradient(34deg, rgba(255,255,255,1) 55%, rgba(146,233,247,1) 55%, rgba(85,125,142,1) 65%, rgba(142,61,119,1) 81%, rgba(166,96,173,1) 100%);
+}
+
+
+.line-backgroud-degrade-serede-conecta {
+    border: 1px solid rgb(115,8,85) !important;
+}
 
 
 tr {
@@ -151,8 +236,4 @@ table > thead > tr {
 .link-filtros:focus {
     outline: 0 !important;
     box-shadow: none !important;
-}
-
-.input-error input, .input-error textarea, .input-error select {
-    border-color: #d00;
 }

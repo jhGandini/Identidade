@@ -1,7 +1,6 @@
 ﻿using IdentityServer4.Extensions;
 using IdentityServer4.Models;
 using IdentityServer4.Validation;
-using static IdentityServer4.Models.IdentityResources;
 
 namespace Identidade.Server.Extensions;
 
@@ -22,8 +21,8 @@ public class RedirectUriValidator : IRedirectUriValidator
         //    var index = requestedUri.IndexOf("/", 8);
         //    requestedUri = requestedUri.Substring(0, index + 1);
         //}
-        
-        return Task.FromResult(StringCollectionContainsString(client.PostLogoutRedirectUris, requestedUri));        
+
+        return Task.FromResult(StringCollectionContainsString(client.PostLogoutRedirectUris, requestedUri));
     }
 
     public Task<bool> IsRedirectUriValidAsync(string requestedUri, Client client)

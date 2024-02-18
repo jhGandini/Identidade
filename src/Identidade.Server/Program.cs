@@ -1,7 +1,6 @@
 using Identidade.Server.Extensions;
 using Microsoft.IdentityModel.Logging;
 using Serilog;
-using Serilog.Exceptions;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -15,7 +14,7 @@ try
 
     var conf = builder.ConfigureAppSettings();
 
-    builder.Host.ConfigureSerilog(); 
+    builder.Host.ConfigureSerilog();
 
     var app = builder
         .ConfigureServices()
@@ -25,7 +24,7 @@ try
 
     app.Run();
 }
-catch (Exception ex) when (ex.GetType().Name is not "StopTheHostException") // https://github.com/dotnet/runtime/issues/60600
+catch (Exception ex) when (ex is not HostAbortedException)
 {
     Log.Fatal(ex, "Unhandled exception");
 }

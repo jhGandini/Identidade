@@ -1,4 +1,3 @@
-using System.ComponentModel.DataAnnotations;
 using IdentityServer4.Events;
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
@@ -6,6 +5,7 @@ using IdentityServer4.Stores;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using System.ComponentModel.DataAnnotations;
 
 namespace Identidade.Server.Pages.Grants;
 
@@ -30,7 +30,7 @@ public class Index : PageModel
     }
 
     public ViewModel View { get; set; }
-        
+
     public async Task OnGet()
     {
         var grants = await _interaction.GetAllUserGrantsAsync();
