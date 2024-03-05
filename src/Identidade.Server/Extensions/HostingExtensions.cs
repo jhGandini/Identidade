@@ -1,13 +1,16 @@
-﻿using Identidade.Server.Data;
+﻿using Duende.IdentityServer;
+using Duende.IdentityServer.Services;
+using Identidade.Server.Data;
+using Identidade.Server.Pages.Portal;
 using Identidade.Server.Services;
 using Identidade.Server.Settings;
-using IdentityServer4;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.DataProtection;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
+using System.Reflection.PortableExecutable;
 using System.Security.Cryptography.X509Certificates;
 using System.Text.Json.Serialization;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace Identidade.Server.Extensions;
 
@@ -30,7 +33,7 @@ internal static class HostingExtensions
         builder.Configuration.Bind("Email", email);
 
         builder.Services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseSqlServer(builder.Configuration.GetConnectionString("sqlConnection"), dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName))
+                options.UseSqlServer(builder.Configuration.GetConnectionString("IDP"), dbOpts => dbOpts.MigrationsAssembly(typeof(Program).Assembly.FullName))
             );
         builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
@@ -57,7 +60,7 @@ internal static class HostingExtensions
         builder.Services.AddSameSiteCookiePolicy();
 
 
-
+        builder.Services.AddTransient<ClientRepository>();
         builder.Services.AddSingleton<EmailSettings>(_ => email);
         builder.Services.AddScoped<EmailService>();
         builder.Services.AddScoped<IProfileService, SeredeProfile>();
@@ -67,7 +70,7 @@ internal static class HostingExtensions
 
 
         //builder.Services.AddControllersWithViews();
-        
+
 
         return builder.Build();
     }
@@ -81,7 +84,7 @@ internal static class HostingExtensions
         if (app.Environment.IsDevelopment())
         {
             app.UseDeveloperExceptionPage();
-            app.UseMigrationsEndPoint();
+            //app.UseMigrationsEndPoint();
         }
 
         app.UseStaticFiles();
@@ -92,13 +95,13 @@ internal static class HostingExtensions
         app.UseAuthentication();
 
         //app.MapDefaultControllerRoute().RequireAuthorization();
-        //app.MapRazorPages().RequireAuthorization();
+        app.MapRazorPages().RequireAuthorization();
 
-        app.UseEndpoints(endpoints =>
-        {
-            endpoints.MapRazorPages();
-            //endpoints.MapDefaultControllerRoute();
-        });
+        //app.UseEndpoints(endpoints =>
+        //{
+        //    endpoints.MapRazorPages();
+        //    //endpoints.MapDefaultControllerRoute();
+        //});
         //app.MapControllers();
 
         return app;

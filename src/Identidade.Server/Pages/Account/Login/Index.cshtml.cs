@@ -1,8 +1,8 @@
+using Duende.IdentityServer;
+using Duende.IdentityServer.Events;
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Services;
 using Identidade.Server.Models;
-using IdentityServer4;
-using IdentityServer4.Events;
-using IdentityServer4.Models;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -194,7 +194,7 @@ namespace Identidade.Server.Pages.Account.Login
             var context = await _interaction.GetAuthorizationContextAsync(returnUrl);
             if (context?.IdP != null && await _schemeProvider.GetSchemeAsync(context.IdP) != null)
             {
-                var local = context.IdP == IdentityServer4.IdentityServerConstants.LocalIdentityProvider;
+                var local = context.IdP == Duende.IdentityServer.IdentityServerConstants.LocalIdentityProvider;
 
                 // this is meant to short circuit the UI and only trigger the one external IdP
                 View = new ViewModel

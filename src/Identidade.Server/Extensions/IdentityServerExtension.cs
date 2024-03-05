@@ -7,7 +7,8 @@ public static class IdentityServerExtension
 {
     public static void ConfgureIdentityServer(this WebApplicationBuilder builder)
     {
-        var connectionString = builder.Configuration.GetConnectionString("sqlConnection");
+        var connectionString = builder.Configuration.GetConnectionString("SSO");
+
 
         builder.Services.AddIdentityServer(options =>
         {
@@ -15,6 +16,9 @@ public static class IdentityServerExtension
             options.Events.RaiseInformationEvents = true;
             options.Events.RaiseFailureEvents = true;
             options.Events.RaiseSuccessEvents = true;
+
+            options.EmitStaticAudienceClaim = true;
+            options.KeyManagement.Enabled = false;
         })
             .AddAspNetIdentity<SeredeUser>()
             .AddConfigurationStore(options =>

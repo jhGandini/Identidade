@@ -1,6 +1,6 @@
-﻿using IdentityServer4.Extensions;
-using IdentityServer4.Models;
-using IdentityServer4.Validation;
+﻿using Duende.IdentityServer.Extensions;
+using Duende.IdentityServer.Models;
+using Duende.IdentityServer.Validation;
 
 namespace Identidade.Server.Extensions;
 

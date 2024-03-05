@@ -1,9 +1,6 @@
 ﻿@page
 @model Identidade.Server.Pages.Account.ForgotPassword.ForgotPasswordModel
-    <div style="max-width: 300px">
-        <div class="row mb-3">
-            <img src="~/imagens/Dark-Smile.png" />
-        </div>        
+    <div style="max-width: 300px">     
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="row mb-3">                
@@ -12,7 +9,7 @@
                 <span asp-validation-for="Input.Email" class="text-danger"></span>
             </div>
             <div class="row mb-3">
-                <button class="btn btn-primary btn" type="submit" value="Reset">Reset</button>
+                <button class="btn btn-info btn" type="submit" value="Reset">Reset</button>
             </div>
         </form>
     </div>

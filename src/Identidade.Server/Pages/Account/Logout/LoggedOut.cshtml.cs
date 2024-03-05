@@ -1,5 +1,5 @@
+using Duende.IdentityServer.Services;
 using Identidade.Server.Models;
-using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;

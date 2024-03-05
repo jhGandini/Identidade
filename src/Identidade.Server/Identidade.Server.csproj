@@ -11,10 +11,10 @@
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="BuildWebCompiler2022" Version="1.14.10" />
+    <PackageReference Include="Duende.IdentityServer" Version="7.0.1" />
+    <PackageReference Include="Duende.IdentityServer.AspNetIdentity" Version="7.0.1" />
+    <PackageReference Include="Duende.IdentityServer.EntityFramework" Version="7.0.1" />
     <PackageReference Include="Flunt" Version="2.0.5" />
-    <PackageReference Include="IdentityServer4" Version="4.1.2" />
-    <PackageReference Include="IdentityServer4.AspNetIdentity" Version="4.1.2" />
-    <PackageReference Include="IdentityServer4.EntityFramework" Version="4.1.2" />
     <PackageReference Include="Serilog.AspNetCore" Version="8.0.1" />
     <PackageReference Include="Serilog.Enrichers.Environment" Version="2.3.0" />
     <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
